@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sentinel Vault — Secure Document Box Simulation</title>
+<style>
+:root{--bg:#080d16;--panel:#101a29;--panel2:#142236;--line:#26374e;--text:#eaf2ff;--muted:#91a3bb;--cyan:#5ee7f5;--green:#54e0a0;--amber:#ffc56b;--red:#ff647c;--shadow:0 18px 50px #0006}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#173451 0,#0a1220 42%,var(--bg) 78%);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#18283d;color:var(--text);border-radius:10px;padding:10px 13px;transition:.18s}button:hover:not(:disabled){border-color:var(--cyan);transform:translateY(-1px)}button:disabled{opacity:.4;cursor:not-allowed}.primary{background:linear-gradient(135deg,#087e98,#1a5f9c);border-color:#36b9d2}.danger{background:#4b1d2c;border-color:#803249}.good{background:#123c34;border-color:#247c69}.small{font-size:12px;padding:7px 9px}.app{max-width:1440px;margin:auto;padding:26px 24px 34px}.top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:24px}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#43dbe7,#2a74c9);display:grid;place-items:center;color:#04121e;font-size:23px;box-shadow:0 0 35px #37c9e933}.eyebrow{font-size:11px;letter-spacing:.18em;color:var(--cyan);font-weight:800;text-transform:uppercase}.top h1{font-size:22px;letter-spacing:-.04em;margin:2px 0 0}.top p{color:var(--muted);margin:4px 0 0}.livepill{display:flex;gap:8px;align-items:center;border:1px solid #245b53;background:#102b2a;border-radius:999px;padding:8px 12px;color:#9af1d3;font-size:12px;white-space:nowrap}.dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px var(--green)}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:16px}.metric,.panel{background:linear-gradient(150deg,#111d2eeb,#0c1523f5);border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}.metric{padding:16px 18px;display:flex;justify-content:space-between;align-items:center}.metric .label{font-size:12px;color:var(--muted)}.metric .num{font-size:24px;font-weight:750;letter-spacing:-.04em;margin-top:3px}.metric .mi{width:38px;height:38px;border-radius:12px;background:#1c3045;display:grid;place-items:center;font-size:18px}.layout{display:grid;grid-template-columns:minmax(340px,1.1fr) minmax(320px,.9fr);gap:16px}.panel{padding:18px;min-width:0}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.panelhead h2{font-size:15px;margin:0;letter-spacing:-.02em}.sub{color:var(--muted);font-size:12px;margin-top:3px}.tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:6px;padding:5px 7px;color:var(--muted)}.vaultscene{min-height:310px;display:grid;place-items:center;position:relative;overflow:hidden;border-radius:13px;background:radial-gradient(ellipse at 50% 70%,#1e4860 0,#12273a 34%,#0a1422 72%);border:1px solid #223d53;perspective:850px}.gridfloor{position:absolute;inset:45% -20% -30%;background-image:linear-gradient(#3a799022 1px,transparent 1px),linear-gradient(90deg,#3a799022 1px,transparent 1px);background-size:28px 28px;transform:rotateX(58deg);mask-image:linear-gradient(transparent,#000 22%)}.glow{position:absolute;width:250px;height:90px;background:#29d7e51c;filter:blur(35px);bottom:42px;border-radius:50%}.vault{width:220px;height:170px;position:relative;transform-style:preserve-3d;transform:rotateX(3deg) rotateY(-14deg);margin-top:18px;z-index:2}.base{position:absolute;left:0;right:0;bottom:0;height:118px;background:linear-gradient(145deg,#45586c,#202e40 60%,#142131);border:2px solid #71869a;border-radius:9px 9px 13px 13px;box-shadow:inset 0 0 0 7px #192738,inset 0 0 0 9px #50677b,0 25px 40px #0008}.base:before{content:"";position:absolute;inset:13px;border:1px solid #8da2b044;border-radius:4px}.frontlabel{position:absolute;left:50%;top:36px;transform:translateX(-50%);font-size:9px;letter-spacing:.23em;color:#b5c7d7;white-space:nowrap}.lockplate{position:absolute;left:50%;top:59px;transform:translateX(-50%);width:48px;height:35px;border-radius:5px;background:linear-gradient(135deg,#17283b,#344b60);border:1px solid #8ba2b5;display:grid;place-items:center;font-size:17px;color:var(--cyan);box-shadow:0 0 16px #0008}.hinge{position:absolute;top:-2px;left:24px;width:17px;height:15px;background:#75899b;border-radius:3px}.hinge.h2{left:auto;right:24px}.lid{position:absolute;left:-2px;top:0;width:224px;height:72px;transform-origin:12px 64px;transform:rotateX(0deg) translateZ(2px);transition:transform .85s cubic-bezier(.2,.8,.2,1);background:linear-gradient(145deg,#70869a,#33485d 62%,#1b2b3d);border:2px solid #91a4b5;border-radius:9px 9px 5px 5px;box-shadow:inset 0 0 0 7px #283a4c,inset 0 0 0 9px #8193a2,0 8px 14px #0005}.lid:after{content:"SENTINEL / SECURE";position:absolute;top:23px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.22em;color:#d7e5ee}.vault.open .lid{transform:rotateX(-112deg) translateY(-6px) translateZ(2px)}.vault.compromised .base{box-shadow:inset 0 0 0 7px #192738,inset 0 0 0 9px #50677b,0 0 35px #ff647c33}.papers{position:absolute;left:42px;right:42px;bottom:42px;height:40px;z-index:0;transition:.5s}.paper{position:absolute;inset:0;background:#e7e5d9;border:1px solid #fff;border-radius:2px;box-shadow:0 0 0 1px #9ca7b3;transform:rotate(-5deg)}.paper.p2{transform:rotate(5deg);background:#d4d8d9}.paper.p3{transform:rotate(-1deg);background:#f7f1df}.ink{position:absolute;inset:0;background:radial-gradient(ellipse at 35% 40%,#182a6a 0,#17275b 25%,#162344 65%,transparent 70%);opacity:0;transform:scale(.2);transition:opacity .8s,transform 1s;mix-blend-mode:multiply;border-radius:3px}.vault.destroyed .ink{opacity:.97;transform:scale(1.7)}.scenehint{position:absolute;left:13px;bottom:11px;font-size:11px;color:#90a7bb}.scenechip{position:absolute;right:12px;top:12px;border:1px solid #365168;background:#0a1928bb;padding:6px 8px;border-radius:7px;font-size:10px;color:var(--cyan);letter-spacing:.08em}.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.controlbox{border:1px solid var(--line);background:#0d1827;border-radius:12px;padding:13px}.controlbox h3{font-size:12px;margin:0 0 9px}.field{display:flex;gap:8px}.field input{min-width:0;width:100%;border:1px solid #344861;background:#07111e;color:var(--text);padding:10px 11px;border-radius:9px;outline:none}.field input:focus{border-color:var(--cyan)}.buttonrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}.sensorrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sensor{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0b1624}.sensorline{display:flex;align-items:center;justify-content:space-between;gap:8px}.sensorname{font-size:12px;font-weight:700}.sensorval{font-size:10px;color:var(--green);background:#12372f;padding:4px 6px;border-radius:5px}.sensorval.alert{color:#ffc4cd;background:#4a1c2b}.sensor p{font-size:11px;color:var(--muted);margin:7px 0 0}.sensorbar{height:4px;background:#22364b;border-radius:9px;margin-top:11px;overflow:hidden}.sensorbar span{display:block;width:8%;height:100%;background:var(--green);transition:width .4s}.sensorbar span.alert{width:100%;background:var(--red)}.stateflow{display:flex;align-items:center;gap:5px;margin:14px 0 0;overflow:hidden}.state{flex:1;text-align:center;border:1px solid var(--line);background:#0b1624;color:var(--muted);font-size:9px;padding:8px 2px;border-radius:7px;white-space:nowrap}.state.active{border-color:#2fabc0;background:#103544;color:#a3f5ff;box-shadow:0 0 15px #31c6df12}.state.bad{border-color:#aa3d55;background:#3b1725;color:#ff9aaa}.statearrow{color:#516c82;font-size:12px}.rightstack{display:grid;gap:16px;align-content:start}.authcard{background:linear-gradient(135deg,#122338,#0b1625);border:1px solid #29425a;border-radius:13px;padding:15px}.authrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.authrow h3{margin:0;font-size:13px}.token{font:700 22px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.2em;color:var(--cyan);margin:13px 0 5px}.tiny{font-size:11px;color:var(--muted)}.progress{height:4px;border-radius:5px;background:#24364a;overflow:hidden;margin:10px 0}.progress span{display:block;height:100%;width:100%;background:var(--cyan);transition:width .4s linear}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.actions button{font-size:12px}.logpanel{padding-bottom:10px}.loglist{display:grid;gap:7px;max-height:278px;overflow:auto;padding-right:3px}.logitem{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:10px;background:#0a1522;border:1px solid #1e3045;border-radius:9px}.logtime{font:10px ui-monospace,monospace;color:#7f9bb4;padding-top:2px}.logtitle{font-size:11px;font-weight:750;display:flex;align-items:center;gap:7px}.logdesc{font-size:11px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}.logdot{width:6px;height:6px;border-radius:50%;background:var(--cyan);flex:none}.logdot.ok{background:var(--green)}.logdot.warn{background:var(--amber)}.logdot.bad{background:var(--red)}.logempty{color:var(--muted);font-size:12px;text-align:center;padding:25px}.logfooter{display:flex;justify-content:space-between;align-items:center;margin-top:10px}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#152b40;border:1px solid #3b647c;border-radius:11px;padding:11px 16px;box-shadow:var(--shadow);z-index:20;transition:.25s;font-size:12px}.toast.show{opacity:1;transform:translate(-50%,0)}.notice{font-size:11px;color:#8fa4b9;line-height:1.5;margin-top:14px}.notice strong{color:#c7d9e9}.foot{display:flex;justify-content:space-between;gap:12px;color:#617991;font-size:11px;margin-top:18px}.foot a{color:#70dbe8;text-decoration:none}@media(max-width:950px){.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.app{padding:17px 12px}.top{align-items:flex-start}.top h1{font-size:18px}.livepill{font-size:0;padding:9px}.livepill .dot{width:8px;height:8px}.metrics{gap:8px}.metric{padding:12px}.metric .num{font-size:21px}.panel{padding:13px}.controls{grid-template-columns:1fr}.vaultscene{min-height:290px}.foot{flex-direction:column}.token{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">⬡</div><div><div class="eyebrow">Physical Security Systems / Lab 01</div><h1>Sentinel Vault <span style="color:var(--muted);font-weight:400">/ Secure Document Box</span></h1><p>Authentication · Tamper sensing · Controlled response · Audit trail</p></div></div>
+  <div class="livepill"><span class="dot"></span> SIMULATION ONLINE</div>
+</header>
+<section class="metrics">
+  <div class="metric"><div><div class="label">System state</div><div class="num" id="metricState">LOCKED</div></div><div class="mi">🔒</div></div>
+  <div class="metric"><div><div class="label">Events recorded</div><div class="num" id="metricEvents">0</div></div><div class="mi">▤</div></div>
+  <div class="metric"><div><div class="label">Authentication</div><div class="num" id="metricAuth">—</div></div><div class="mi">⌁</div></div>
+  <div class="metric"><div><div class="label">Tamper status</div><div class="num" id="metricTamper">CLEAR</div></div><div class="mi">◈</div></div>
+</section>
+<main class="layout">
+<section class="panel">
+  <div class="panelhead"><div><h2>Physical enclosure</h2><div class="sub">Animated model · visual response only</div></div><span class="tag" id="sceneTag">SECURE</span></div>
+  <div class="vaultscene">
+    <div class="gridfloor"></div><div class="glow"></div>
+    <div class="vault" id="vault">
+      <div class="papers"><div class="paper p1"></div><div class="paper p2"></div><div class="paper p3"><div class="ink" id="ink"></div></div></div>
+      <div class="base"><div class="hinge"></div><div class="hinge h2"></div><div class="frontlabel">SECURE DOCUMENTS</div><div class="lockplate" id="lockIcon">🔒</div></div>
+      <div class="lid"></div>
+    </div>
+    <div class="scenechip" id="sceneChip">LOCKED / ARMED</div><div class="scenehint">Schematic visualization — not a physical device</div>
+  </div>
+  <div class="controls">
+    <div class="controlbox"><h3>Authorized access</h3><div class="field"><input id="codeInput" placeholder="Enter one-time code" maxlength="6" inputmode="numeric" aria-label="One-time code"></div><div class="buttonrow"><button class="primary" id="unlockBtn">Verify & unlock</button><button class="small" id="newCodeBtn">New code</button></div></div>
+    <div class="controlbox"><h3>Physical sensor test</h3><div class="tiny">Trigger virtual sensor input to test the response.</div><div class="buttonrow"><button class="danger" id="lidBtn">Open lid (unauthorized)</button><button id="lightBtn">Trigger light sensor</button></div><div class="buttonrow"><button class="small" id="resetBtn">Reset demo</button></div></div>
+  </div>
+  <div class="stateflow" aria-label="System state flow"><div class="state active" id="sLocked">LOCKED</div><span class="statearrow">›</span><div class="state" id="sVerify">VERIFY</div><span class="statearrow">›</span><div class="state" id="sAuth">AUTHORIZED</div><span class="statearrow">›</span><div class="state" id="sTamper">TAMPER</div><span class="statearrow">›</span><div class="state" id="sResponse">RESPONSE</div></div>
+  <div class="notice"><strong>Prototype safety:</strong> all sensors, authentication, logging, and actuator actions are simulated in this browser. The ink effect is a visual overlay only; no liquid, motor, or real document damage occurs.</div>
+</section>
+<div class="rightstack">
+  <section class="panel">
+    <div class="panelhead"><div><h2>Sensor telemetry</h2><div class="sub">Virtual ESP32 / sensor interface</div></div><span class="tag">LIVE STATE</span></div>
+    <div class="sensorrow">
+      <div class="sensor"><div class="sensorline"><span class="sensorname">Lid limit switch</span><span class="sensorval" id="lidStatus">CLOSED</span></div><p id="lidDesc">Contact engaged · no opening detected</p><div class="sensorbar"><span id="lidBar"></span></div></div>
+      <div class="sensor"><div class="sensorline"><span class="sensorname">Internal light sensor</span><span class="sensorval" id="lightStatus">DARK</span></div><p id="lightDesc">Ambient level within secure threshold</p><div class="sensorbar"><span id="lightBar"></span></div></div>
+    </div>
+    <div class="panelhead" style="margin:17px 0 0"><div><h2>Controller status</h2><div class="sub">Finite-state machine</div></div><span class="tag" id="controllerTag">ARMED</span></div>
+    <div style="display:flex;justify-content:space-between;gap:12px;margin-top:12px;font-size:12px"><span style="color:var(--muted)">Current state</span><strong id="controllerState">LOCKED</strong></div>
+    <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:12px"><span style="color:var(--muted)">Response unit</span><strong id="responseState">STANDBY</strong></div>
+    <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:12px"><span style="color:var(--muted)">Audit persistence</span><strong style="color:var(--green)">LOCAL DEMO LOG</strong></div>
+  </section>
+  <section class="panel">
+    <div class="panelhead"><div><h2>Cryptographic access</h2><div class="sub">Demo token · one-time use</div></div><span class="tag">AUTH MODULE</span></div>
+    <div class="authcard">
+      <div class="authrow"><h3>Current authorization code</h3><span class="tag" id="tokenStatus">ACTIVE</span></div>
+      <div class="token" id="tokenText">••••••</div>
+      <div class="tiny" id="tokenHint">Enter this code to simulate authorized access.</div>
+      <div class="progress"><span id="tokenProgress"></span></div>
+      <div class="authrow"><span class="tiny" id="tokenTimer">Demo token available</span><button class="small" id="copyCodeBtn">Use code</button></div>
+    </div>
+    <div class="actions"><button class="good" id="validTestBtn">Run valid access test</button><button class="danger" id="invalidTestBtn">Run invalid access test</button></div>
+    <div class="notice">This is a teaching simulation, not production cryptography. The displayed code is locally generated and is not signed by a server or protected by a secure device channel.</div>
+  </section>
+  <section class="panel logpanel">
+    <div class="panelhead"><div><h2>Security audit trail</h2><div class="sub">Newest events first · stored in this browser</div></div><span class="tag" id="logCount">0 EVENTS</span></div>
+    <div class="loglist" id="logList"><div class="logempty">No events yet. Run an access test to begin.</div></div>
+    <div class="logfooter"><span class="tiny">Local demo persistence</span><div style="display:flex;gap:7px"><button class="small" id="exportBtn">Export CSV</button><button class="small" id="clearLogBtn">Clear log</button></div></div>
+  </section>
+</div>
+</main>
+<footer class="foot"><span>MDP PROJECT · VIT VELLORE · MULTIDISCIPLINARY PROTOTYPE</span><span>Sentinel Vault v1.0 · Simulation only</span></footer>
+</div><div class="toast" id="toast"></div>
+<script>
+(() => {
+ const $ = id => document.getElementById(id);
+ const STORAGE_KEY='sentinelVaultEventsV1';
+ let code='', tokenExpiry=0, timer=null, events=[], state='LOCKED', lidOpen=false, lightOn=false, tampered=false, destroyed=false, authUsed=false, toastTimer;
+ const now = () => new Date();
+ const stamp = d => d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+ function notify(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2400)}
+ function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(events.slice(0,250)))}catch(e){}}
+ function log(type,detail,level='info'){
+   const d=now(); events.unshift({time:d.toISOString(),display:stamp(d),type,detail,level});events=events.slice(0,250);save();renderLogs();updateMetrics();
+ }
+ function renderLogs(){
+   $('logCount').textContent=`${events.length} EVENTS`; $('metricEvents').textContent=events.length;
+   const list=$('logList');
+   if(!events.length){list.innerHTML='<div class="logempty">No events yet. Run an access test to begin.</div>';return}
+   list.innerHTML=events.map(e=>`<div class="logitem"><div class="logtime">${escapeHTML(e.display||stamp(new Date(e.time)))}</div><div><div class="logtitle"><span class="logdot ${e.level==='ok'?'ok':e.level==='warn'?'warn':e.level==='bad'?'bad':''}"></span>${escapeHTML(e.type)}</div><div class="logdesc">${escapeHTML(e.detail)}</div></div></div>`).join('');
+ }
+ function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+ function updateMetrics(){
+   $('metricState').textContent=state;
+   $('metricAuth').textContent=authUsed?'USED':(code?'READY':'—');
+   $('metricTamper').textContent=tampered?'DETECTED':'CLEAR';
+   $('metricTamper').style.color=tampered?'var(--red)':'var(--green)';
+ }
+ function setState(s){
+   state=s; $('controllerState').textContent=s; $('metricState').textContent=s;
+   ['sLocked','sVerify','sAuth','sTamper','sResponse'].forEach(id=>$(id).classList.remove('active','bad'));
+   const map={LOCKED:'sLocked',VERIFYING:'sVerify',AUTHORIZED:'sAuth',TAMPER:'sTamper',RESPONSE:'sResponse',DESTROYED:'sResponse'};
+   const el=$(map[s]||'sLocked');el.classList.add(s==='TAMPER'||s==='RESPONSE'||s==='DESTROYED'?'bad':'active');
+   $('controllerTag').textContent=(s==='LOCKED'?'ARMED':s==='AUTHORIZED'?'ACCESS GRANTED':s==='DESTROYED'?'RESPONSE COMPLETE':s);
+   updateMetrics();
+ }
+ function genCode(){
+   code=String(Math.floor(100000+Math.random()*900000));tokenExpiry=Date.now()+60000;authUsed=false;
+   $('tokenText').textContent=code;$('tokenStatus').textContent='ACTIVE';$('tokenStatus').style.color='var(--green)';$('tokenHint').textContent='Enter this code to simulate authorized access.';$('codeInput').value='';$('tokenProgress').style.width='100%';$('tokenTimer').textContent='Expires in 60 seconds';
+   if(timer)clearInterval(timer);timer=setInterval(()=>{
+     const left=Math.max(0,tokenExpiry-Date.now());$('tokenProgress').style.width=(left/60000*100)+'%';$('tokenTimer').textContent=left?`Expires in ${Math.ceil(left/1000)} seconds`:'Token expired';
+     if(!left){$('tokenStatus').textContent='EXPIRED';$('tokenStatus').style.color='var(--amber)';clearInterval(timer)}
+   },250);
+   log('TOKEN_GENERATED','Fresh six-digit demo token created; 60-second validity window.','info');
+ }
+ function setSensor(which,on){
+   if(which==='lid'){lidOpen=on;$('lidStatus').textContent=on?'OPEN':'CLOSED';$('lidStatus').classList.toggle('alert',on);$('lidDesc').textContent=on?'Contact open · lid movement detected':'Contact engaged · no opening detected';$('lidBar').classList.toggle('alert',on);$('vault').classList.toggle('open',on&&!destroyed)}
+   else{lightOn=on;$('lightStatus').textContent=on?'BRIGHT':'DARK';$('lightStatus').classList.toggle('alert',on);$('lightDesc').textContent=on?'Unexpected illumination above threshold':'Ambient level within secure threshold';$('lightBar').classList.toggle('alert',on)}
+ }
+ function safeRespond(source){
+   if(destroyed){notify('Response already triggered. Reset the demo to try again.');return}
+   tampered=true;setState('TAMPER');$('sceneTag').textContent='TAMPER DETECTED';$('sceneTag').style.color='var(--red)';$('sceneChip').textContent='UNAUTHORIZED ACCESS';$('sceneChip').style.color='var(--red)';$('vault').classList.add('compromised');
+   log('TAMPER_DETECTED',`Unexpected ${source} sensor input while access was not authorized.`,'bad');
+   // Explicitly preserve the event before simulating the response.
+   log('AUDIT_COMMIT','Tamper event saved to local browser log before simulated response.','ok');
+   setState('RESPONSE');$('responseState').textContent='SIMULATING RESPONSE';$('responseState').style.color='var(--amber)';
+   log('RESPONSE_TRIGGERED','Visual-only ink overlay activated; no physical liquid or actuator is used.','warn');
+   setTimeout(()=>{
+     destroyed=true;state='DESTROYED';$('vault').classList.add('destroyed');$('sceneTag').textContent='RESPONSE COMPLETE';$('sceneChip').textContent='DOCUMENT OBSCURED';$('lockIcon').textContent='⚠';$('responseState').textContent='SIMULATED / COMPLETE';$('responseState').style.color='var(--red)';setState('DESTROYED');$('metricTamper').textContent='DETECTED';notify('Tamper logged. Visual response simulated.');
+   },450);
+ }
+ function unlock(value){
+   if(destroyed||tampered){notify('System in tamper state. Reset the demo first.');return}
+   setState('VERIFYING');log('AUTH_ATTEMPT','Unlock request received; checking demo token freshness and value.','info');
+   const valid=!!code&&value===code&&Date.now()<tokenExpiry&&!authUsed;
+   if(valid){
+     authUsed=true;$('tokenStatus').textContent='USED';$('tokenStatus').style.color='var(--amber)';$('tokenHint').textContent='Token accepted once. Generate a new code for the next test.';$('lockIcon').textContent='🔓';
+     log('AUTH_SUCCESS','Fresh demo token accepted; one-time use enforced in this simulation.','ok');setState('AUTHORIZED');$('sceneTag').textContent='AUTHORIZED';$('sceneTag').style.color='var(--green)';$('sceneChip').textContent='ACCESS GRANTED';$('sceneChip').style.color='var(--green)';$('vault').classList.add('open');$('responseState').textContent='STANDBY';$('responseState').style.color='var(--green)';notify('Authentication accepted. Box unlocked.');
+   }else{
+     log('AUTH_REJECTED',!value?'No code entered.':(authUsed?'Token already used.':(Date.now()>=tokenExpiry?'Token expired.':'Code mismatch.')),'warn');
+     // Invalid authentication is logged; the simulated physical response requires a physical sensor event.
+     setState('LOCKED');notify('Authentication rejected. Box remains locked.');
+   }
+ }
+ function unauthorizedLid(){
+   if(destroyed||tampered){notify('Tamper response already completed. Reset the demo.');return}
+   if(state==='AUTHORIZED'&&!authUsed){setSensor('lid',true);notify('Authorized session active.');return}
+   setSensor('lid',true);safeRespond('lid limit switch');
+ }
+ function lightTrigger(){
+   if(destroyed||tampered){notify('Tamper response already completed. Reset the demo.');return}
+   setSensor('light',true);
+   if(state==='AUTHORIZED'&&!authUsed){log('SENSOR_INFO','Light detected during authorized access session.','info');notify('Light detected during authorized session.');return}
+   safeRespond('internal light');
+ }
+ function reset(){
+   if(timer)clearInterval(timer);lidOpen=false;lightOn=false;tampered=false;destroyed=false;authUsed=false;
+   $('vault').classList.remove('open','destroyed','compromised');$('lockIcon').textContent='🔒';$('sceneTag').textContent='SECURE';$('sceneTag').style.color='';$('sceneChip').textContent='LOCKED / ARMED';$('sceneChip').style.color='';$('responseState').textContent='STANDBY';$('responseState').style.color='';$('codeInput').value='';
+   setSensor('lid',false);setSensor('light',false);setState('LOCKED');log('SYSTEM_RESET','Demo reset to locked and armed state.','info');genCode();notify('Demo reset. New code generated.');
+ }
+ $('unlockBtn').addEventListener('click',()=>unlock($('codeInput').value.trim()));
+ $('codeInput').addEventListener('keydown',e=>{if(e.key==='Enter')unlock($('codeInput').value.trim())});
+ $('newCodeBtn').addEventListener('click',()=>{if(tampered||destroyed){notify('Reset the demo before generating another code.');return}genCode();notify('Fresh demo token generated.')});
+ $('copyCodeBtn').addEventListener('click',()=>{$('codeInput').value=code;$('codeInput').focus()});
+ $('validTestBtn').addEventListener('click',()=>{if(tampered||destroyed){notify('Reset the demo first.');return}$('codeInput').value=code;unlock(code)});
+ $('invalidTestBtn').addEventListener('click',()=>{if(tampered||destroyed){notify('Reset the demo first.');return}unlock('000000')});
+ $('lidBtn').addEventListener('click',unauthorizedLid);
+ $('lightBtn').addEventListener('click',lightTrigger);
+ $('resetBtn').addEventListener('click',reset);
+ $('clearLogBtn').addEventListener('click',()=>{events=[];save();renderLogs();updateMetrics();notify('Local demo log cleared.')});
+ $('exportBtn').addEventListener('click',()=>{
+   const rows=[['timestamp','event','details','level'],...events.slice().reverse().map(e=>[e.time,e.type,e.detail,e.level])];
+   const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='sentinel-vault-audit.csv';a.click();URL.revokeObjectURL(a.href);notify('Audit CSV exported.');
+ });
+ try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(Array.isArray(saved))events=saved}catch(e){}
+ renderLogs();setState('LOCKED');log('SYSTEM_START','Simulation initialized. Sensors clear; controller armed.','ok');genCode();
+})();
+</script>
+</body></html>
